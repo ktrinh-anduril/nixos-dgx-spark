@@ -2,7 +2,7 @@
   description = "NixOS USB disk image for aarch64-linux";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nix-gl-host = {
       url = "github:numtide/nix-gl-host";
