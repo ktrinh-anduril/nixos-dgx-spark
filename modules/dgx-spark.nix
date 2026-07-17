@@ -50,6 +50,19 @@ let
           UEVENT_HELPER = no;
 
           UBUNTU_HOST = no;
+
+          # NVIDIA's arm64 annotation selects PREEMPT_NONE and disables
+          # PREEMPT_VOLUNTARY, so the terse config forces PREEMPT_NONE=y. It does
+          # not record PREEMPT_VOLUNTARY=n though: the terse config is a diff
+          # against the NixOS baseline, and the baseline it was generated against
+          # already had PREEMPT_VOLUNTARY off (that nixpkgs used PREEMPT_LAZY as
+          # the default for the Preemption Model choice). Newer nixpkgs baselines
+          # force PREEMPT_VOLUNTARY=y on kernels older than 6.18, so two members
+          # of the same Kconfig "Preemption Model" choice end up =y and
+          # generate-config.pl aborts with "conflicting answers". Pin
+          # PREEMPT_VOLUNTARY off here so PREEMPT_NONE stays the sole selection
+          # regardless of the consuming nixpkgs baseline.
+          PREEMPT_VOLUNTARY = lib.mkForce no;
         });
     }
   );
